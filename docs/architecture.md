@@ -1,89 +1,98 @@
 # Architecture Overview
 
+This repository is organized to support documentation, policy management, and lightweight automation in a maintainable structure.
+
 ## Purpose
 
-This repository provides a minimal yet extensible scaffold for a research system focused on recursive prompt evaluation, multi-agent interaction studies, and safety boundary analysis.
+The repository provides a clean place to store:
 
-## Core components
+- project documentation
+- architecture and design notes
+- review and operating guidance
+- configuration definitions
+- policy and governance artifacts
+- application or automation source code
 
-### 1. Entry point
-The root `main.py` file provides a simple CLI interface for running an experiment. It parses arguments such as:
-
-- experiment name
-- recursion depth
-- maximum turns
-- safety mode
-
-This keeps the system accessible while maintaining a clear entry point for research automation.
-
-### 2. Application layer
-The `src/app.py` module defines the public interface used by the CLI. It creates a `ResearchPipeline` instance and returns a structured result dictionary.
-
-### 3. Pipeline layer
-The `src/pipeline.py` module contains the logic for:
-
-- constructing prompt variants
-- simulating recursive depth
-- tracking turn count
-- scoring risk levels
-- evaluating safety outcomes
-
-This is the operational core of the project and is intended to be extended with more advanced evaluation logic.
-
-### 4. Package boundary
-The `src/__init__.py` file marks the package boundary and exposes the research module cleanly for imports.
-
-## Execution flow
-
-1. CLI parses environment or user arguments.
-2. `main.py` invokes `run_experiment(...)` in `src/app.py`.
-3. `ResearchPipeline.run()` generates recursive prompts and evaluates safety risk.
-4. The result is returned as a structured dictionary and printed to the console.
-
-## Example runtime model
+## Repository Structure
 
 ```text
-CLI / main.py
-    -> src.app.run_experiment()
-        -> ResearchPipeline.run()
-            -> prompt generation
-            -> recursion modeling
-            -> risk scoring
-            -> safety classification
-            -> JSON-like result summary
+.
+├── README.md
+├── main.py
+├── src/
+│   └── app.py
+├── docs/
+│   └── architecture.md
+├── config/
+│   └── (future configuration files)
+└── .github/
+    └── (future workflow and policy files)
 ```
 
-## Design goals
+## Key Design Principles
 
-- keep dependencies minimal
-- remain immediately runnable
-- support extensibility for future model adapters and evaluators
-- preserve a clear distinction between experiments, safety checks, and results
+1. Small, reviewable changes
+2. Clear separation of concerns
+3. Documentation-first thinking
+4. Explicit review for operational changes
+5. Minimal sensitive data exposure
 
-## Recommended extensions
+## Runtime Flow
 
-The scaffold is deliberately small so it can grow into a fuller research project. Recommended next additions include:
+The application entry point is `main.py`, which delegates execution to `src/app.py`.
 
-- prompt registry and templates
-- agent orchestration layer
-- evaluation metrics module
-- structured logging and output storage
-- result export to JSON or CSV
-- model-provider abstraction
-- multi-agent simulation environment
+```python
+from src.app import main as app_main
 
-## Research orientation
+if __name__ == "__main__":
+    app_main()
+```
 
-This architecture deliberately separates:
+The runtime flow is simple:
 
-- script execution
-- pipeline logic
-- safety assessment
-- reporting output
+1. `main.py` starts the program
+2. `src/app.py` creates an `App` instance
+3. Application metadata and service descriptions are rendered
+4. Output is printed to the terminal
 
-This separation makes the system easier to test, audit, and extend as the project evolves from a prototype into a larger research framework.
+## Application Layer
+
+The `src/app.py` file is responsible for:
+
+- configuration initialization
+- service metadata management
+- summary rendering
+- application execution entry point
+
+This keeps the logic separated from the file that starts the program.
+
+## Documentation Layer
+
+The `docs/` folder is intended for:
+
+- architecture notes
+- design decisions
+- onboarding guidance
+- system documentation
+- future engineering documentation
+
+## Future Expansion
+
+This project is intentionally scaffolded for incremental growth. As the codebase evolves, additional modules can be added under `src/` and additional documentation can be added under `docs/`.
+
+Typical next steps might include:
+
+- adding parser or config loader modules
+- adding validation utilities
+- adding CLI commands
+- adding automation scripts
+- adding deployment or policy documentation
 
 ## Summary
 
-This minimal architecture gives the repository a runnable foundation without overengineering the system. It supports controlled experimentation and provides a clear base for future research modules and policy-aware evaluation flows.
+This repository is designed around a simple but scalable pattern:
 
+- human-readable documentation
+- minimal runtime logic
+- clear project structure
+- maintainable future growth
